@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.greeenacademy.firstthymeleaf.models.Category;
@@ -30,13 +32,13 @@ public class CategoryController {
     public String index(HttpSession session, Model model) {
         ArrayList<Category> categoriesList = categoryService.getCategory();
         model.addAttribute("categoriesList", categoriesList);
-        return "categories/index";
+        return "pages/categories/index";
     }
 
     // MENAMPILAKAN HALAMAN CREATE CATEGORY
     @GetMapping("/categories/create")
     public String create() {
-        return "categories/create-category";
+        return "pages/categories/create-category";
     }
 
     @PostMapping("/categories/create")
@@ -45,10 +47,16 @@ public class CategoryController {
 
         if (result.hasErrors()) {
             model.addAttribute("errors", result);
-            return "categories/create-category";
+            return "pages/categories/create-category";
         }
         categoryService.addCategory(category);
         attributes.addFlashAttribute("success", "Category created successfully");
+        return "redirect:/categories";
+    }
+    @PostMapping("/categories/delete/{id}")
+    public String delete(@PathVariable("id") String id, RedirectAttributes attributes) {
+        categoryService.deleteCategory(id);
+        attributes.addFlashAttribute("success", "Category deleted successfully");
         return "redirect:/categories";
     }
 }

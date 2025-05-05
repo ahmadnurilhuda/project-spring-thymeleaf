@@ -38,7 +38,7 @@ public class BookController {
 
         ArrayList<BookViewModel> booksList = bookService.getBook();
         model.addAttribute("booksList", booksList);
-        return "books/index";
+        return "pages/books/index";
     }
 
     @GetMapping("/books/create")

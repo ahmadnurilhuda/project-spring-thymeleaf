@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/base}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Category Book</title>
+</head>
+<body>
+
+    <main layout:fragment="content">
+
+    <h2>Form Add Book</h2>
+    <p th:text="${message}" class="text-danger"></p>
+
+        <form th:object="${category}" action="" method="post" class="container">
+        <div class="row">
+        
+            <!-- Kolom Kiri -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label" for="name">name</label>
+                    <input th:text="${category != null ? category.name : ''}" th:value="${category != null ? category.name : ''}" class="form-control ${errors.getFieldError('name')!= null? 'is-invalid':''}" type="text" name="name" id="name" placeholder="Name Category">
+                    <div class="form-text text-danger">
+                    ${errors.getFieldError("name") != null ? errors.getFieldError("name").getDefaultMessage() : ""}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="description">Description</label>
+                    <textarea th:value="${category != null ? category.description : ''}" class="form-control ${errors.getFieldError('description')!= null? 'is-invalid':''}" name="description" id="description" placeholder="Description"
+                    th:text="${category != null ? category.description : ''}"></textarea>
+                    <div class="form-text text-danger">
+                    ${errors.getFieldError("description") != null ? errors.getFieldError("description").getDefaultMessage() : ""}
+                    </div>
+                </div>
+            </div>
+        <!-- Elemen Tambahan di Bawah -->
+
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Add Book</button>
+        </div>
+        </form>
+    </main>
+
+
+    
+</body>
+</html>

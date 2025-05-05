@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/base}">
+<head>
+    <title>List of Categories</title>
+</head>
+<body>
+    <main class="container" layout:fragment="content">
+        <section class="container">
+        
+            <div class="container">
+                <a class="btn btn-primary" href="./categories/create">tambah category</a>
+            </div>
+            
+            <div class="container my-4">
+                <h2 class="mb-4">Daftar Category</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Name Category</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${categoriesList.isEmpty()}">
+                                <td th:colspan="4">No categories found.</td></td>
+                            </tr>
+                            <tr th:each="category, loop : ${categoriesList}">
+                                <td th:text="${loop.count}"></td>
+                                <td th:text="${category.name}"></td>
+                                <td th:text="${category.description}"></td>
+                                <td>
+                                    <a class="btn btn-edit" th:href="@{/categories/edit/{id}(id=${category.id})}">Edit</a>
+                                    <form th:action="@{/categories/delete/{id}(id=${category.id})}" method="post" style="display:inline;">
+                                        <button class="btn btn-delete" type="submit" onClick="return confirm('Are you sure you want to delete this categories')">delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    
+        </section>
+    </main>
+    
+</body>
+</html>

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/base}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thymeleaf</title>
     <style>
         body {
@@ -19,62 +17,62 @@
         }
     </style>
 </head>
-<body>
-    <!-- contoh penggunakan thymeleaf -->
+  <main layout:fragment="content">
 
-    <!-- print text menggunakan th:text -->
-  <h1 th:text="${message}">Hello World</h1>
+      <!-- contoh penggunakan thymeleaf -->
 
-    <!-- penggunakan th:if dan th:unless  / switch (condition)  -->
-    <div th:if="${age >= 18}">
-        <p>Umur Anda : <span th:text="${age + ' - Sudah Dewasa'}"></span></p>
-    </div>
-    <div th:if="${age < 18}">
-        <p>Umur Anda : <span th:text="${age + ' - Belum Dewasa'}"></span></p>
-    </div>
+          <!-- print text menggunakan th:text -->
+          <h1 th:text="${message}">Hello World</h1>
 
-    <div th:unless="${age >= 18}">
-        <p>Umur Anda : <span th:text="${age + ' - Belum Dewasa'}"></span></p>
-    </div>
-      
+          <!-- penggunakan th:if dan th:unless  / switch (condition)  -->
+          <div th:if="${age >= 18}">
+              <p>Umur Anda : <span th:text="${age + ' - Sudah Dewasa'}"></span></p>
+          </div>
+          <div th:if="${age < 18}">
+              <p>Umur Anda : <span th:text="${age + ' - Belum Dewasa'}"></span></p>
+          </div>
 
-  <div th:switch="${role}">
-    <p th:case="'admin'">Anda Admin</p>
-    <p th:case="'user'">Anda User</p>
-    <p th:case="*">Anda Guest</p>
-  </div>
+          <div th:unless="${age >= 18}">
+              <p>Umur Anda : <span th:text="${age + ' - Belum Dewasa'}"></span></p>
+          </div>
+            
 
-  <!-- penggunakan th:each (loop iteration) -->
-  <ul>
-    <li th:each="name : ${names}" th:text="${name}"></li>
-  </ul>
+        <div th:switch="${role}">
+          <p th:case="'admin'">Anda Admin</p>
+          <p th:case="'user'">Anda User</p>
+          <p th:case="*">Anda Guest</p>
+        </div>
 
-  <ul>
-    <li th:each="name, status : ${names}" th:text="${status.count + '. ' + name}"></li>
-  </ul>
+        <!-- penggunakan th:each (loop iteration) -->
+        <ul>
+          <li th:each="name : ${names}" th:text="${name}"></li>
+        </ul>
 
+        <ul>
+          <li th:each="name, status : ${names}" th:text="${status.count + '. ' + name}"></li>
+        </ul>
+
+        
+        <h3>Daftar Nama + Genap/Ganjil + Styling:</h3>
+          <ul>
+          <li th:each="name, status : ${names}"
+              th:text="${status.count + '. ' + name + (status.even ? ' - ini genap' : ' - ini ganjil')}"
+              th:class="${status.even ? 'even font-bold' : 'odd font-bold'}">
+          </li>
+          </ul>
+
+          <p>test ini test lagi dan lagi & ini lagi</p>
+          <p>text</p>
+          <p>coba lagi</p>
+
+          <ul>
+          <li th:each="name, status : ${names}" th:text="${status.count + '. ' + name + (status.even ? '. ini genap' : '. ini ganjil')}"
+              th:class="${status.even ? 'even' : 'odd'} + ' font-bold'"
+              ></li>
+        </ul>
+  </main>
   
-  <h3>Daftar Nama + Genap/Ganjil + Styling:</h3>
-    <ul>
-    <li th:each="name, status : ${names}"
-        th:text="${status.count + '. ' + name + (status.even ? ' - ini genap' : ' - ini ganjil')}"
-        th:class="${status.even ? 'even font-bold' : 'odd font-bold'}">
-    </li>
-    </ul>
-
-    <p>test ini test lagi dan lagi & ini lagi</p>
-    <p>text</p>
-    <p>coba lagi</p>
-
-    <ul>
-    <li th:each="name, status : ${names}" th:text="${status.count + '. ' + name + (status.even ? '. ini genap' : '. ini ganjil')}"
-        th:class="${status.even ? 'even' : 'odd'} + ' font-bold'"
-        ></li>
-  </ul>
-
-
-
-
-    
-</body>
+  <span layout:fragment="footer">
+    GREEN ACADEMY
+  </span>
 </html>
