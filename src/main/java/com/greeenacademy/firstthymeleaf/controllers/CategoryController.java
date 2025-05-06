@@ -20,7 +20,6 @@ import com.greeenacademy.firstthymeleaf.service.CategoryService;
 
 @Controller
 public class CategoryController {
-
     private CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {
@@ -37,7 +36,8 @@ public class CategoryController {
 
     // MENAMPILAKAN HALAMAN CREATE CATEGORY
     @GetMapping("/categories/create")
-    public String create() {
+    public String create(Model model) {
+        model.addAttribute("category",new Category(null,null));
         return "pages/categories/create-category";
     }
 
@@ -51,6 +51,25 @@ public class CategoryController {
         }
         categoryService.addCategory(category);
         attributes.addFlashAttribute("success", "Category created successfully");
+        return "redirect:/categories";
+    }
+
+    @GetMapping("/categories/edit/{id}")
+    public String edit(@PathVariable("id") String id, HttpSession session, Model model) {
+        Category category = categoryService.getCategoryById(id);
+        model.addAttribute("category", category);
+        return "pages/categories/edit-category";
+    }
+
+    @PostMapping("/categories/edit/{id}")
+    public String update(@Valid @ModelAttribute("category") Category category, BindingResult result,
+            @PathVariable("id") String id, HttpSession session, Model model, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result);
+            return "pages/categories/edit-category";
+        }
+        categoryService.updateCategory(category, id);
+        attributes.addFlashAttribute("success", "Category updated successfully");
         return "redirect:/categories";
     }
     @PostMapping("/categories/delete/{id}")

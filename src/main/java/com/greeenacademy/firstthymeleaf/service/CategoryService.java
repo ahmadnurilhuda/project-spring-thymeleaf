@@ -26,10 +26,9 @@ public class CategoryService {
             session.setAttribute("categoriesList", this.categoriesList);
         }
 
-         // simulasi data
-         categoriesList.add(new Category("1", "Category 1"));
-         categoriesList.add(new Category("2", "Category 2"));
-         categoriesList.add(new Category("3", "Category 3"));
+        // simulasi data
+        categoriesList.add(new Category("Fiction", "Fiction"));
+        categoriesList.add(new Category("Non Fiction", "Non Fiction"));
     }
 
     public ArrayList<Category> getCategory(){
@@ -48,6 +47,17 @@ public class CategoryService {
             }
         }
         return null;
+    }
+
+    public void updateCategory(Category category, String id){
+        for(Category cat : categoriesList){
+            if(cat.getId().equals(id)){
+                cat.setName(category.getName());
+                cat.setDescription(category.getDescription());
+                break;
+            }
+        }
+        this.session.setAttribute("categoriesList", categoriesList);
     }
 
     public void deleteCategory(String id){

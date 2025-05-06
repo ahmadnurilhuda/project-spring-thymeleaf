@@ -26,7 +26,7 @@ public class Book {
     @PositiveOrZero(message = "Price must be greater than zero")
     private Double price;
     
-    @NotNull(message = "Price is required")
+    @NotNull(message = "Stock is required")
     @PositiveOrZero(message = "Stock must be greater than zero")
     private Integer stock;
 

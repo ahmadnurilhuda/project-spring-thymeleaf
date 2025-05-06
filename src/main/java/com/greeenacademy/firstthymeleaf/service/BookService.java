@@ -61,29 +61,29 @@ public class BookService {
     }
 
     public BookViewModel getBookId(String id){
-        for(BookViewModel book : booksList){
-            if(book.getBook().getId().equals(id)){
-                return book;
+        for(BookViewModel bvm : booksList){
+            if(bvm.getBook().getId().equals(id)){
+                return bvm;
             }
         }
         return null;
     }
 
-    public void updateBook(Book updateBook){
-        for(BookViewModel book : booksList){
-            if(book.getBook().getId().equals(updateBook.getId())){
-                book.getBook().setTitle(updateBook.getTitle());
-                book.getBook().setIsbn(updateBook.getIsbn());
-                book.getBook().setYear(updateBook.getYear());
-                book.getBook().setPrice(updateBook.getPrice());
-                book.getBook().setStock(updateBook.getStock());
-                book.getBook().setDescription(updateBook.getDescription());
-                book.getBook().setCategoryId(updateBook.getCategoryId());
+    public void updateBook(Book updateBook, String bookId){
+
+        if (booksList != null) {
+            for (int book = 0; book < booksList.size(); book++) {
+                if (booksList.get(book).getBook().getId().equals(bookId)) {
+                    Category category = categoryService.getCategoryById(updateBook.getCategoryId());
+                    BookViewModel bookViewModel = new BookViewModel(updateBook, category);
+
+                    booksList.set(book, bookViewModel);
+                    break;
+                }
             }
+            this.session.setAttribute("booksList", booksList);
         }
-
-        this.session.setAttribute("booksList", booksList);
-
+       
         // cara sebelum ada viewmodel
 
         // for(Book book : booksList){
@@ -105,6 +105,7 @@ public class BookService {
             for (int book = 0; book < booksList.size(); book++) {
                 if (booksList.get(book).getBook().getId().equals(id)) {
                     booksList.remove(book);
+                    break;
                 }
             }
             this.session.setAttribute("booksList", booksList);

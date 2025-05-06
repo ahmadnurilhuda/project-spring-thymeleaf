@@ -10,88 +10,105 @@
         <h2>Form Add Book</h2>
         <p class="text-danger" th:text="${message}"></p>
         
-            <form action="" method="post" class="container">
+            <form th:object="${book}" action="" method="post" class="container">
             <div class="row">
             
                 <!-- Kolom Kiri -->
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label" for="title">Title</label>
-                        <input class="form-control ${errors.getFieldError('title')!= null? 'is-invalid':''}" type="text" name="title" id="title" value="${book.title}">
-                        <div class="form-text text-danger" th:text="${errors.getFieldError('title')}">
-                        ${errors.getFieldError("title") != null ? errors.getFieldError("title").getDefaultMessage() : ""}
-                        </div>
-                        
+                        <input 
+                            class="form-control" 
+                            type="text" 
+                            name="title" 
+                            id="title" 
+                            th:field="*{title}"
+                            th:classappend="${#fields.hasErrors('title')} ? ' is-invalid'">
+                        <div class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
                     </div>
         
                     <div class="mb-3">
                         <label class="form-label" for="isbn">ISBN Number</label>
-                        <input class="form-control ${errors.getFieldError('isbn')!= null? 'is-invalid':''}" type="text" name="isbn" id="isbn" value="${book.isbn}">
-                        <div class="form-text text-danger">
-                        ${errors.getFieldError("isbn") != null ? errors.getFieldError("isbn").getDefaultMessage() : ""}
-                        </div>
+                        <input 
+                            class="form-control" 
+                            type="text"
+                            name="isbn"
+                            id="isbn"
+                            th:field="*{isbn}"
+                            th:classappend="${#fields.hasErrors('isbn')} ? ' is-invalid'">
+                        <div class="form-text text-danger" th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></div>
                     </div>
         
                     <div class="mb-3">
                         <label class="form-label" for="year">Year Release</label>
-                        <input class="form-control ${errors.getFieldError('year')!= null? 'is-invalid':''}" type="text" name="year" id="year" value="${book.year}">
-                        <div class="form-text text-danger">
-                        ${errors.getFieldError("year") != null ? errors.getFieldError("year").getDefaultMessage() : ""}
-                        </div>
+                        <input 
+                            class="form-control" 
+                            type="text"
+                            name="year"
+                            id="year"
+                            th:field="*{year}"
+                            th:classappend="${#fields.hasErrors('year')} ? ' is-invalid'">
+                        <div class="form-text text-danger" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></div>
                     </div>
                     
                     <div class="mb-3">
                         <label class="form-label" for="stock">Stock</label>
-                        <input class="form-control ${errors.getFieldError('stock')!= null? 'is-invalid':''}" type="number" name="stock" id="stock" value="${book.stock}">
-                        <div class="form-text text-danger">
-                        ${errors.getFieldError("stock") != null ? errors.getFieldError("stock").getDefaultMessage() : ""}
-                        </div>
+                        <input 
+                            class="form-control"
+                            type="number"
+                            name="stock"
+                            id="stock"
+                            th:field="*{stock}"
+                            th:classappend="${#fields.hasErrors('stock')} ? ' is-invalid'">
+                        <div class="form-text text-danger" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></div>
                     </div>
         
                     <div class="mb-3">
                         <label class="form-label" for="price">Price</label>
-                        <input class="form-control ${errors.getFieldError('price')!= null? 'is-invalid':''}" type="number" name="price" id="price" value="${book.price}">
-                        <div class="form-text text-danger">
-                        ${errors.getFieldError("price") != null ? errors.getFieldError("price").getDefaultMessage() : ""}
-                        </div>
+                        <input 
+                            class="form-control" 
+                            type="number" 
+                            name="price" 
+                            id="price"  
+                            th:field="*{price}"
+                            th:classappend="${#fields.hasErrors('price')} ? ' is-invalid'">
+                        <div class="form-text text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
                     </div>
                 </div>
         
                 <!-- Kolom Kanan -->
                 <div class="col-md-6">
                     <div class="mb-3">
-                    
-                        <label class="form-label" for="categoryId">Category</label>
-                        <select name="categoryId" class="form-select ${errors.getFieldError('categoryId')!= null? 'is-invalid':''}">
-                            <option value="">Pilih Kategori</option>
-                                <c:forEach var="category" items="${categories}">
-                                    <option value="${category.id}" 
-                                        ${book != null && book.categoryId == category.id ? 'selected' : ''}>
-                                        ${category.name}
-                                    </option>
-                                </c:forEach>
-
-                                
+                        <label for="categoryId" class="form-label">Category</label>
+                        <select th:field="*{categoryId}" class="form-select" 
+                                th:classappend="${#fields.hasErrors('categoryId')} ? ' is-invalid'">
+                            <option value="">-- Pilih Kategori --</option>
+                            <option th:each="cat : ${categories}" 
+                                    th:value="${cat.id}" 
+                                    th:text="${cat.name}">
+                            </option>
                         </select>
-                        <div class="form-text text-danger">
-                        ${errors.getFieldError("categoryId") != null ? errors.getFieldError("categoryId").getDefaultMessage() : ""}
-                        </div>
+                        <div class="form-text text-danger" th:errors="*{categoryId}"></div>
                     </div>
         
                     <div class="mb-3">
                         <label class="form-label" for="description">Description</label>
-                        <textarea class="form-control ${errors.getFieldError('description')!= null? 'is-invalid':''}" name="description" id="description">${book.description}</textarea>
-                        <div class="form-text text-danger">
-                        ${errors.getFieldError("description") != null ? errors.getFieldError("description").getDefaultMessage() : ""}
-                        </div>
+                        <textarea 
+                            th:field="*{description}"
+                            class="form-control" 
+                            name="description" 
+                            id="description"
+                            th:classappend="${#fields.hasErrors('description')} ? ' is-invalid'"
+                            ></textarea>
+                        <div class="form-text text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
                     </div>
                 </div>
             </div>
-        
+
             <!-- Elemen Tambahan di Bawah -->
         
             <div class="mb-3">
-                <button class="btn btn-primary" type="submit">Add Book</button>
+                <button class="btn btn-primary" type="submit">Add New Book</button>
             </div>
             </form>
     </main>

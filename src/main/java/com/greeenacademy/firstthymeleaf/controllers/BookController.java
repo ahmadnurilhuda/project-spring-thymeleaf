@@ -44,8 +44,9 @@ public class BookController {
     @GetMapping("/books/create")
     public String create(Model model) {
 
+        model.addAttribute("book", new Book (null, null, null, null, null, null, null));
         model.addAttribute("categories", categoryService.getCategory());
-        return "books/create-book";
+        return "pages/books/create-book";
     }
 
     @PostMapping("/books/create")
@@ -59,7 +60,7 @@ public class BookController {
         if (result.hasErrors()) {
             model.addAttribute("errors", result);
             model.addAttribute("categories", categoryService.getCategory());
-            return "books/create-book";
+            return "pages/books/create-book";
         }
 
         bookService.addBook(book);
@@ -73,28 +74,36 @@ public class BookController {
     @GetMapping("/books/edit/{id}")
     public String edit(@PathVariable("id") String bookId, HttpSession session, Model model) {
 
-        BookViewModel book = bookService.getBookId(bookId);
-        model.addAttribute("book", book);
-        return "books/edit-book";
+        try{
+            Book book = bookService.getBookId(bookId).getBook();   
+            model.addAttribute("categories", categoryService.getCategory());
+            model.addAttribute("book", book);
+            return "pages/books/edit-book";
+        }catch(NullPointerException e){
+            return "redirect:/books";
+        }
     }
 
     @PostMapping("/books/edit/{id}")
     public String update(
             @Valid @ModelAttribute("book") Book book,
-            @PathVariable("id") String bookId,
             BindingResult result,
+            @PathVariable("id") String bookId,
             HttpSession session,
             Model model,
             RedirectAttributes attributes) {
 
         if (result.hasErrors()) {
+            model.addAttribute("categories", categoryService.getCategory());
             model.addAttribute("errors", result);
-            return "books/edit-book";
+            return "pages/books/edit-book";
         }
 
-        book.setId(bookId);
+        // book.setId(bookId);
 
-        bookService.updateBook(book);
+        bookService.updateBook(book, bookId);
+
+
 
         attributes.addFlashAttribute("success", "Book updated successfully");
         attributes.addFlashAttribute("status", "update");
