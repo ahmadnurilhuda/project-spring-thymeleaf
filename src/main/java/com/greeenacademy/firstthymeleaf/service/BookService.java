@@ -11,35 +11,33 @@ import com.greeenacademy.firstthymeleaf.models.Book;
 import com.greeenacademy.firstthymeleaf.models.Category;
 import com.greeenacademy.firstthymeleaf.viewmodel.BookViewModel;
 
-
-
-@Service //otomatis injection
+@Service // otomatis injection
 @SessionScope
 public class BookService {
+    private ArrayList<Book> books = new ArrayList<Book>();
     private HttpSession session;
     private ArrayList<BookViewModel> booksList = new ArrayList<BookViewModel>();
     private CategoryService categoryService;
-    
-// Constructor
+
+    // Constructor
     public BookService(HttpSession session) {
         this.session = session;
         this.booksList = (ArrayList<BookViewModel>) session.getAttribute("booksList");
-        
+
         if (this.booksList == null) {
             this.booksList = new ArrayList<>();
             session.setAttribute("booksList", this.booksList);
         }
-
         this.categoryService = new CategoryService(session);
     }
-// Methodes Service
+    // Methodes Service
 
-    public ArrayList<BookViewModel> getBook(){
+    public ArrayList<BookViewModel> getBook() {
         // return booksList == null ? new ArrayList<Book>() : this.booksList;
         return this.booksList;
     }
 
-    public void addBook(Book book) throws Exception{
+    public void addBook(Book book) throws Exception {
         // ArrayList<Book> booksList = getBook();
         // booksList.add(book);
         // this.booksList = booksList;
@@ -47,29 +45,32 @@ public class BookService {
         // validasi jika id category ada atau tidak
         try {
 
+            // simulasi data
+
+
             Category category = categoryService.getCategoryById(book.getCategoryId());
-            if( category != null){
+            if (category != null) {
                 BookViewModel bookViewModel = new BookViewModel(book, category);
                 this.booksList.add(bookViewModel);
             }
         } catch (Exception e) {
             throw new Exception("Category not found / Invalid category id");
         }
-       
+
         this.session.setAttribute("booksList", booksList);
 
     }
 
-    public BookViewModel getBookId(String id){
-        for(BookViewModel bvm : booksList){
-            if(bvm.getBook().getId().equals(id)){
+    public BookViewModel getBookId(String id) {
+        for (BookViewModel bvm : booksList) {
+            if (bvm.getBook().getId().equals(id)) {
                 return bvm;
             }
         }
         return null;
     }
 
-    public void updateBook(Book updateBook, String bookId){
+    public void updateBook(Book updateBook, String bookId) {
 
         if (booksList != null) {
             for (int book = 0; book < booksList.size(); book++) {
@@ -83,21 +84,21 @@ public class BookService {
             }
             this.session.setAttribute("booksList", booksList);
         }
-       
+
         // cara sebelum ada viewmodel
 
         // for(Book book : booksList){
-        //     if(book.getId().equals(updateBook.getId())){
-        //         book.setTitle(updateBook.getTitle());
-        //         book.setIsbn(updateBook.getIsbn());
-        //         book.setYear(updateBook.getYear());
-        //         book.setPrice(updateBook.getPrice());
-        //         book.setStock(updateBook.getStock());
-        //         book.setDescription(updateBook.getDescription());
-        //         book.setCategoryId(updateBook.getCategoryId());
-        //     }
+        // if(book.getId().equals(updateBook.getId())){
+        // book.setTitle(updateBook.getTitle());
+        // book.setIsbn(updateBook.getIsbn());
+        // book.setYear(updateBook.getYear());
+        // book.setPrice(updateBook.getPrice());
+        // book.setStock(updateBook.getStock());
+        // book.setDescription(updateBook.getDescription());
+        // book.setCategoryId(updateBook.getCategoryId());
         // }
-        
+        // }
+
     }
 
     public void deleteBook(String id) {
@@ -112,14 +113,14 @@ public class BookService {
         }
 
         // cara sebelum ada viewmodel
-        
+
         // if (booksList != null) {
-        //     for (int book = 0; book < booksList.size(); book++) {
-        //         if (booksList.get(book).getId().equals(id)) {
-        //             booksList.remove(book);
-        //         }
-        //     }
-        //     this.session.setAttribute("booksList", booksList);
+        // for (int book = 0; book < booksList.size(); book++) {
+        // if (booksList.get(book).getId().equals(id)) {
+        // booksList.remove(book);
+        // }
+        // }
+        // this.session.setAttribute("booksList", booksList);
         // }
     }
 }
