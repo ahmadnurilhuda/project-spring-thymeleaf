@@ -10,7 +10,7 @@ public class CartItems {
     private int quantity;
 
 
-    public CartItems(String id, BookViewModel book, int quantity) {
+    public CartItems(BookViewModel book, int quantity) {
         this.id = UUID.randomUUID().toString();
         this.book = book;
         this.quantity = quantity;

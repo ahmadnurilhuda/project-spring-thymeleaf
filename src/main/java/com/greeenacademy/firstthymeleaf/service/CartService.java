@@ -42,7 +42,7 @@ public class CartService {
         }
 
         // membuat cartItems
-        CartItems cartItems = new CartItems("null", book, 1);
+        CartItems cartItems = new CartItems(book, 1);
         // menambahkan cartItems
         this.cartItems.add(cartItems);
         session.setAttribute("cartItems", this.cartItems);
@@ -57,5 +57,4 @@ public class CartService {
             }
         }
     }
-
 }

@@ -27,7 +27,21 @@
                     </div>
                 </div>
             </div>
-        </div>    
+        </div>
+        
+        <div class="toast show align-items-center text-white bg-danger border-0 position-fixed bottom-0 end-0 m-3" 
+          role="alert" aria-live="assertive" aria-atomic="true"
+          th:if="${warning}" id="successToast">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <span th:text="${warning}">Success message</span>
+                    <div class="mt-2 pt-2 border-top">
+                        <a href="/cart" class="btn btn-light btn-sm">See Cart</a>
+                        <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="toast">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
       <!-- list item  -->
       <div class="vstack gap-4 container" th:if="${cartsList.size() > 0}">
         <div class="border rounded-2 p-4" th:each="cart : ${cartsList}">
@@ -75,16 +89,9 @@
       <div th:if="${cartsList.size() == 0}"><h3 class="text-center mt-5 mb-5">Cart is empty!</h3></div>
 
       <!-- tombol checkout -->
-       <div th:if="${cartsList.size() > 0}">
-        <form th:action="@{/checkout}" method="post" class="mt-5 container">
-            <button
-              type="submit"
-              class="btn w-100 text-white py-2 bg-primary">
-              Checkout
-            </button>
-          </form>
+       <div th:if="${cartsList.size() > 0}" class="container my-4 mb-5">
+          <a class="btn w-100 text-white py-2 bg-primary" th:href="@{/checkouts}">Lanjutkan Pembayaran</a>
        </div>
-      
     </main>
   </body>
 </html>

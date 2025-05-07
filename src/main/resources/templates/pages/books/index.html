@@ -37,11 +37,7 @@
                                 <td th:text="${book.getBook().title}"></td>
                                 <td th:text="${book.getBook().isbn}"></td>
                                 <td th:text="${book.getBook().year}"></td>
-                                <td th:text="${'Rp'+ #numbers.formatDecimal(book.getBook().price, 0,0)}">
-                                    <!-- ${#numbers.formatDecimal(cart.getBook().getBook().price, 0, 0)} -->
-                                    <!-- <fmt:formatNumber value="${book.getBook().price}" type="currency"
-                                    currencySymbol="Rp" maxFractionDigits="0" /> -->
-                                </td>
+                                <td th:text="${'Rp'+ #numbers.formatDecimal(book.getBook().price, 0,0)}"></td>
                                 <td th:text="${book.getBook().stock}"></td>
                                 <td th:text="${book.getCategory().name}"></td>
                                 <td th:text="${book.getBook().description}"></td>

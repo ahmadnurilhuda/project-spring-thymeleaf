@@ -44,10 +44,6 @@ public class BookService {
 
         // validasi jika id category ada atau tidak
         try {
-
-            // simulasi data
-
-
             Category category = categoryService.getCategoryById(book.getCategoryId());
             if (category != null) {
                 BookViewModel bookViewModel = new BookViewModel(book, category);
