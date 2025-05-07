@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/base}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Catalog</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        
+        <div class="container mt-4 mb-5">
+            <h2 class="mb-4">Book Catalog</h2>
+        </div>
+
+        <!-- Toast Message -->
+        <div class="toast show align-items-center text-white border-0 position-fixed bottom-0 end-0 m-3" 
+            role="alert" aria-live="assertive" aria-atomic="true" 
+            th:if="${success != null or checkout != null or warning != null}" 
+            th:classappend="${success != null ? 'bg-success' : (checkout != null ? 'bg-success' : 'bg-danger')}">
+
+            <div class="d-flex">
+                <div class="toast-body">
+                    <span th:text="${success != null ? success : (checkout != null ? checkout : warning)}"></span>
+                    
+                    <div class="mt-2 pt-2 border-top">
+                        <a th:if="${checkout != null}" th:href="@{/transactions}" class="btn btn-light btn-sm" >See Transactions</a>
+                        <a th:if="${success != null or warning != null}" th:href="@{/carts}" class="btn btn-light btn-sm">See Cart</a>
+                        <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="toast">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="d-flex flex-wrap gap-3 container mb-5" th:if="${booksList.size() > 0}">
+            <div th:each="book : ${booksList}" class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${book.getBook().title}"></h5>
+                    <p class="card-text mb-2" th:text="${book.getCategory().name}"></p>
+                    <p class="card-text" th:classappend="${book.getBook().stock < 5} ? 'text-danger'">
+                        <span th:text="${book.getBook().stock} + ' pcs in stock'">0 pcs in stock</span>
+                    </p>
+                    <h3 class="card-title mb-4" th:text="${'Rp' + book.getBook().price}"></h3>
+                    <form th:action="@{/catalogs/add/{id}(id=${book.getBook().id})}" method="post" style="display:inline;">
+                        <button class="btn btn-primary" type="submit" 
+                            onclick="return confirm('Are you sure you want to add this book?')">
+                            Add to Cart
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div th:if="${booksList.size() == 0}"><h3 class="text-center mt-5">Catalog is empty!</h3></div>
+        
+
+    
+
+    </main>
+    
+</body>
+</html>

@@ -25,6 +25,10 @@ public class CategoryService {
             this.categoriesList = new ArrayList<>();
             session.setAttribute("categoriesList", this.categoriesList);
         }
+
+        // simulasi data
+        categoriesList.add(new Category("Fiction", "Fiction"));
+        categoriesList.add(new Category("Non Fiction", "Non Fiction"));
     }
 
     public ArrayList<Category> getCategory(){
@@ -45,6 +49,26 @@ public class CategoryService {
         return null;
     }
 
+    public void updateCategory(Category category, String id){
+        for(Category cat : categoriesList){
+            if(cat.getId().equals(id)){
+                cat.setName(category.getName());
+                cat.setDescription(category.getDescription());
+                break;
+            }
+        }
+        this.session.setAttribute("categoriesList", categoriesList);
+    }
+
+    public void deleteCategory(String id){
+        for(Category category : categoriesList){
+            if(category.getId().equals(id)){
+                categoriesList.remove(category);
+                break;
+            }
+        }
+        this.session.setAttribute("categoriesList", categoriesList);
+    }
 
 
 

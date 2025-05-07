@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/base}">
+<head>
+    <title>Checkout</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <div class="container my-4">
+            <h2 class="fw-bold mb-4">Checkout</h2>
+        </div>
+
+        <div class="vstack gap-4 container" th:if="${cartsList.size() > 0}">
+            <div class="border rounded-2 p-4" th:each="cart : ${cartsList}">
+              <div
+                class="d-flex flex-column flex-md-row justify-content-between align-items-start">
+                <!-- KIRI -->
+                <div>
+                  <h5 class="fw-semibold mb-1" th:text="${cart.getBook().getBook().title}"></h5>
+                  <span
+                    class="text-muted small"
+                    th:text="${cart.getBook().getCategory().name != null ? cart.getBook().getCategory().name : 'NoCategory'}">
+                  </span>
+                </div>
+    
+                <!-- KANAN -->
+                <div class="text-md-end mt-3 mt-md-0">
+                    <span
+                        class="fw-semibold"
+                        th:text="'Rp ' + ${#numbers.formatDecimal(cart.getBook().getBook().price, 0, 0)}">
+                    </span>
+                    <span
+                        class="text-muted ms-2"
+                        th:text="'(' + ${cart.getQuantity()} + ' pcs)'">
+                    </span>
+                    <div
+                        class="fw-semibold mt-1"
+                        th:text="'Rp ' + ${#numbers.formatDecimal(cart.getQuantity() * cart.getBook().getBook().price, 0, 0)}">
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div th:if="${cartsList.size() > 0}">
+            <div class="container my-4">
+                <h3 class="fw-semibold mb-1">Total</h3>
+                <span
+                    class="fw-semibold"
+                    th:text="'Rp ' + ${#numbers.formatDecimal(totalAmount, 0, 0)}">
+                </span>
+            </div>
+
+          </div>
+          <!-- jika cart kosong -->
+          <div th:if="${cartsList.size() == 0}"><h3 class="text-center mt-5 mb-5">Checkout is empty!</h3></div>
+
+          <div class="container my-4 mb-5">
+            <form th:action="@{/checkouts}" method="post">
+                <button class="btn btn-primary" type="submit">Checkout</button>
+            </form>
+          </div>
+    </main>
+</body>
+</html>

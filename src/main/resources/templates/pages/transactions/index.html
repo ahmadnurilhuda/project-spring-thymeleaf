@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/base}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <div class="container my-4">
+            <h1 class="fw-bold mb-4">History Transaction</h1>
+        </div>
+    
+
+    <div class="container mt-4 mb-5">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col" th:each="transaction : ${transactionsList}">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">ID Transaksi</h5>
+                        <p class="card-text" th:text="${transaction.id}"></p>
+    
+                        <h6 class="card-subtitle mb-2 text-muted">Total Pembayaran</h6>
+                        <p class="card-text text-success fw-bold" 
+                           th:text="'Rp ' + ${#numbers.formatDecimal(transaction.amount, 0, 'COMMA', 2, 'POINT')}"></p>
+    
+                        <h6 class="card-subtitle mb-2 text-muted">Tanggal Transaksi</h6>
+                        <p class="card-text" th:text="${transaction.transactionDate}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    </main>
+</body>
+</html>

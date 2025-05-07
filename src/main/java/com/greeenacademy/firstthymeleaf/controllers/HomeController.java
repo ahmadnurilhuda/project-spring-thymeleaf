@@ -25,4 +25,6 @@ public class HomeController {
         model.addAttribute("role", "admin");
         return "index";
     } 
+
+    
 }
